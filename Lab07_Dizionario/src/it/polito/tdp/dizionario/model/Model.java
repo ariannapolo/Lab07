@@ -1,27 +1,42 @@
 package it.polito.tdp.dizionario.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.Multigraph;
+import org.jgrapht.graph.SimpleGraph;
 
 import it.polito.tdp.dizionario.db.WordDAO;
 
 public class Model {
 	UndirectedGraph<String, DefaultEdge> grafo;
-	
+	ArrayList<String> listaTuttiVicini;
+		
 	public List<String> createGraph(int numeroLettere) {
-		grafo= new Multigraph<String, DefaultEdge>(DefaultEdge.class);
+		grafo= new SimpleGraph<String, DefaultEdge>(DefaultEdge.class);
 		WordDAO wdao= new WordDAO();
 		List<String> lista = new ArrayList<String>(wdao.getAllWordsFixedLength(numeroLettere));
 		for(String s : lista){
 			checkWord(s,lista);
+			//grafo.addVertex(s);
 		}
+			
+//			for(String v : grafo.vertexSet()){
+//				List<String> list = new ArrayList<String>(wdao.getAllSimilarWords(v, numeroLettere));
+//				for(String s: list){
+//					if(s.compareTo(v)!=0)
+//						grafo.addEdge(v, s);
+//				}
+//				
+				
+			//}
 		
-		return wdao.getAllWordsFixedLength(numeroLettere) ;
+		
+		
+		return lista;
 	}
 
 	public List<String> displayNeighbours(String parolaInserita) {
@@ -59,5 +74,42 @@ public class Model {
 		
 	}
 	
+	public List<String> displayAllNeighbours(String parolaInserita) {
+		//SOLUZIONE ITERATIVA
+//		LinkedList<String> daVisitare = new LinkedList<String>();
+//		ArrayList<String> visitati = new ArrayList<String>();
+//		daVisitare.add(parolaInserita);
+//		
+//		while(daVisitare.size()!=0){
+//			String s = daVisitare.get(0);
+//			for(String v : this.displayNeighbours(s)){
+//				if(!daVisitare.contains(v)&& !visitati.contains(v)){
+//					daVisitare.add(v);
+//				}
+//			}
+//			daVisitare.remove(0);
+//			if(s.compareTo(parolaInserita)!=0)
+//				visitati.add(s);
+//		}
+//		
+//		//System.out.println("Dimensione visitati: "+visitati.size());
+//		return visitati;
+		
+		//SOLUZIONE RICORSIVA
+		 listaTuttiVicini = new ArrayList<String>();
+		 recursive( parolaInserita);
+		 System.out.println("Dimensione visitati: "+listaTuttiVicini.size());
+		return listaTuttiVicini;
+	}
+	
+	private void recursive(String parola){
+		for(String s : this.displayNeighbours(parola)){
+			if(!listaTuttiVicini.contains(s)){
+				listaTuttiVicini.add(s);
+				recursive(s);
+			}
+		}
+		
+	}
 	
 }

@@ -8,15 +8,16 @@ public class TestModel {
 		
 		Model model = new Model();
 		
-		System.out.println(String.format("**Grafo creato** - Trovate #%d parole di lunghezza 4\n",  model.createGraph(3).size()));
+		System.out.println(String.format("**Grafo creato** - Trovate #%d parole di lunghezza 4\n",  model.createGraph(4).size()));
 		
-		List<String> vicini = model.displayNeighbours("sui");
+		List<String> vicini = model.displayNeighbours("casa");
 		System.out.println("Vicini di casa: " + vicini);
-		
+
 		System.out.println();
 		
 		System.out.println("Cerco il vertice con grado massimo...");
 		System.out.println(model.findMaxDegree());
+		
 	}
 
 }

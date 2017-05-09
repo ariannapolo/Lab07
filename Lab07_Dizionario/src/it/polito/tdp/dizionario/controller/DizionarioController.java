@@ -25,6 +25,8 @@ public class DizionarioController {
 	private TextField inputParola;
 	@FXML
 	private Button btnGeneraGrafo;
+	@FXML // fx:id="btnTuttiVicini"
+    private Button btnTuttiVicini; // Value injected by FXMLLoader
 	@FXML
 	private Button btnTrovaVicini;
 	@FXML
@@ -76,6 +78,18 @@ public class DizionarioController {
 			txtResult.setText(re.getMessage());
 		}
 	}
+	
+	@FXML
+	void doTrovaTuttiVicini(ActionEvent event) {
+		try {
+			String parola = inputParola.getText();
+			txtResult.setText("Parole raggiungibili da "+parola+": "+model.displayAllNeighbours(parola));
+		} catch (RuntimeException re) {
+			txtResult.setText(re.getMessage());
+		}
+
+	}
+
 
 	@FXML
 	void initialize() {
@@ -83,6 +97,7 @@ public class DizionarioController {
 		assert inputNumeroLettere != null : "fx:id=\"inputNumeroLettere\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert inputParola != null : "fx:id=\"inputParola\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert btnGeneraGrafo != null : "fx:id=\"btnGeneraGrafo\" was not injected: check your FXML file 'Dizionario.fxml'.";
+		assert btnTuttiVicini != null : "fx:id=\"btnTuttiVicini\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert btnTrovaVicini != null : "fx:id=\"btnTrovaVicini\" was not injected: check your FXML file 'Dizionario.fxml'.";
 		assert btnTrovaGradoMax != null : "fx:id=\"btnTrovaTutti\" was not injected: check your FXML file 'Dizionario.fxml'.";
 	}
